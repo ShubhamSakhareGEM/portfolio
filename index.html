@@ -14,7 +14,7 @@
       --primary-color: #fff;
       --background-color: #0A0B1E;
       --accent-color: #3f73d3;
-      --light-background: #f4f4f4;
+      --light-background: #efefef;
       --light-text: #333;
       --font-family: 'Montserrat', sans-serif;
       --box-dark-bg-company: #1A1C2C;
@@ -114,44 +114,47 @@
       gap: 15px;
       align-items: center;
     }
- /* Toggle Switch Styles */
- .switch {
-      position: relative;
-      display: inline-block;
-      width: 50px;
-      height: 24px;
-    }
-    .switch input { 
-      opacity: 0; 
-      width: 0; 
-      height: 0; 
-    }
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0; left: 0;
-      right: 0; bottom: 0;
-      background-color: var(--accent-color);
-      transition: 0.4s;
-      border-radius: 34px;
-    }
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 18px;
-      width: 18px;
-      left: 3px;
-      bottom: 3px;
-      background-color: var(--primary-color);
-      transition: 0.4s;
-      border-radius: 50%;
-    }
-    input:checked + .slider {
-      background-color: var(--accent-color);
-    }
-    input:checked + .slider:before {
-      transform: translateX(26px);
-    }
+ /* New Theme Toggle Switch Styles */
+.theme-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+}
+.theme-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.switch-slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #3f73d3, #66a3ff);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.4s ease, transform 0.4s ease;
+}
+.switch-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url('dark.svg'); /* Dark theme icon */
+  background-size: cover;
+  background-repeat: no-repeat;
+  transition: background-image 0.4s ease;
+}
+input:checked + .switch-slider {
+  background: linear-gradient(135deg, #f4f4f4, #ddd); /* Light theme colors */
+  transform: rotate(180deg);
+}
+input:checked + .switch-slider .switch-icon {
+  background-image: url('light.svg'); /* Light theme icon */
+}
     /* Social Icons (stored in images folder) */
     .social-icon {
       width: 24px;
@@ -414,6 +417,64 @@ body:not(.light-theme) .github-icon {
 body.light-theme .github-icon {
   filter: invert(0);
 }
+
+/* Shining effect for hero text and box headings */
+.shining {
+  background: linear-gradient(90deg, #7fb2ff, #3f73d3, #7fb2ff);
+  background-size: 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textShine 2s linear infinite;
+}
+
+@keyframes textShine {
+  0% { background-position: 0%; }
+  100% { background-position: 200%; }
+}
+
+/* Update info box headings with the shining effect */
+.info-box h3 {
+  text-align: center;
+  margin-bottom: 10px;
+  /* Using the shining effect for a dynamic look */
+  background: linear-gradient(90deg, #7fb2ff, #3f73d3, #7fb2ff);
+  background-size: 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textShine 2s linear infinite;
+}
+
+.sub-heading {
+  text-align: center;
+  margin-bottom: 10px;
+  /* Using the shining effect for a dynamic look */
+  background: linear-gradient(90deg, #7fb2ff, #3f73d3, #7fb2ff);
+  background-size: 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textShine 2s linear infinite;
+}
+
+.skills-box h3 {
+  text-align: center;
+  margin-bottom: 10px;
+  /* Using the shining effect for a dynamic look */
+  background: linear-gradient(90deg, #7fb2ff, #3f73d3, #7fb2ff);
+  background-size: 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textShine 2s linear infinite;
+}
+
+#vanta-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2; /* Behind all content */
+}
+
     
     /* Unique Box Colors for Dark Theme */
     .company-box { background: var(--box-dark-bg-company); }
@@ -426,6 +487,9 @@ body.light-theme .github-icon {
 <body>
   <!-- Loader Screen -->
   <div id="loader"><span>Shubham Sakhare</span></div>
+
+  <!-- Dynamic Background Container using Vanta.js -->
+  <div id="vanta-bg"></div>
 
   <!-- Navigation -->
   <nav>
@@ -448,9 +512,11 @@ body.light-theme .github-icon {
         <img class="social-icon github-icon" src="GitHub.svg" alt="GitHub">
       </a>
       <!-- Theme Toggle Switch -->
-      <label class="switch">
+      <label class="theme-switch">
         <input type="checkbox" id="theme-toggle">
-        <span class="slider"></span>
+        <span class="switch-slider">
+          <span class="switch-icon"></span>
+        </span>
       </label>
     </div>
   </nav>
@@ -461,11 +527,11 @@ body.light-theme .github-icon {
     <img src="myphoto.jpg" alt="My Photo" class="hero-img">
     <div class="hero-text">
       <div class="left-text">
-        <h1 class="name">Shubham Sakhare</h1>
+        <h1 class="name shining">Shubham Sakhare</h1>
         <p class="designation">Full Stack Developer</p>
       </div>
       <div class="right-text">
-        <h1 class="award-heading">Awarded by</h1>
+        <h1 class="award-heading shining">Awarded by</h1>
         <p class="award-details">
           CitiBank, Accenture, Synechron, and The Hartford<br>
           for Excellence in GenAI, Java Full Stack Development &amp; Cybersecurity
@@ -716,7 +782,48 @@ body.light-theme .github-icon {
     const themeToggle = document.getElementById('theme-toggle');
     themeToggle.addEventListener('change', () => {
       document.body.classList.toggle('light-theme');
+      initVanta();
     });
   </script>
+
+<!-- Include Three.js and Vanta.js NET effect -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+<script>
+  let vantaEffect;
+
+  function initVanta() {
+    const isLight = document.body.classList.contains('light-theme');
+    // For dark theme, use dark background and neon blue lines; for light, use light background and dark lines.
+    const bgColor = isLight ? 0xf4f4f4 : 0x0a0b1e;  // Adjust as needed.
+    const lineColor = isLight ? 0x333333 : 0x3f73d3;
+    
+    // If already initialized, destroy it.
+    if (vantaEffect) vantaEffect.destroy();
+
+    vantaEffect = VANTA.NET({
+      el: "#vanta-bg",
+      color: lineColor,
+      backgroundColor: bgColor,
+      points: 12.00,
+      maxDistance: 20.00,
+      spacing: 15.00
+    });
+  }
+
+  // Initialize Vanta on load.
+  window.addEventListener('load', () => {
+    initVanta();
+    // Hide your loader after initialization (existing loader code here)
+    const loader = document.getElementById('loader');
+    loader.style.opacity = '0';
+    setTimeout(() => {
+      loader.style.display = 'none';
+      window.scrollTo(0,0);
+    }, 500);
+  });
+
+</script>
+
 </body>
 </html>
