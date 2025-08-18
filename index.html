@@ -201,6 +201,11 @@ input:checked + .switch-slider .switch-icon {
   z-index: 1;
 }
 
+/* Override hero image border for light theme */
+body.light-theme .hero-img {
+  border-color: #3f73d3 !important;
+}
+
 /* Container for texts beside the image */
 .hero-text {
   width: 100%;
@@ -432,6 +437,20 @@ body.light-theme .github-icon {
   100% { background-position: 200%; }
 }
 
+/* Rainbow shine animation for emphasized words */
+.count-up {
+  animation: rainbow 4s linear infinite;
+}
+
+@keyframes rainbow {
+  0% { color: red; }
+  20% { color: orange; }
+  40% { color: yellow; }
+  60% { color: green; }
+  80% { color: violet; }
+  100% { color: red; }
+}
+
 /* Update info box headings with the shining effect */
 .info-box h3 {
   text-align: center;
@@ -566,7 +585,7 @@ body.light-theme .github-icon {
         <img src="synechron.png" alt="Synechron Logo" class="box-logo">
         <ul>
           <li>Developed back-end and front-end for CitiBank's confirmation workflow management system.</li>
-          <li>System used globally across 22 operation centers and 1400+ users.</li>
+          <li>System used globally across <span class="count-up" data-target="300">0</span> operation centers and <span class="count-up" data-target="1400">0</span>+ users.</li>
         </ul>
       </div>
       <div class="info-box company-box">
@@ -575,7 +594,7 @@ body.light-theme .github-icon {
         <img src="dassault.jpeg" alt="Dassault Systems Logo" class="box-logo">
         <ul>
           <li>Led back-end development for SLM on the 3DExperience platform.</li>
-          <li>Supported services used by more than 300K users.</li>
+          <li>Supported services used by more than <span class="count-up" data-target="300">0</span>K users</span>.</li>
         </ul>
       </div>
       <div class="info-box company-box">
@@ -584,7 +603,7 @@ body.light-theme .github-icon {
         <img src="accenture.jpeg" alt="Accenture Logo" class="box-logo">
         <ul>
           <li>Worked on back-end development for login and registration for The Hartford.</li>
-          <li>Application served over 1 million users.</li>
+          <li>Application served over <span class="count-up" data-target="1000000">0</span> users.</li>
         </ul>
       </div>
     </div>
@@ -654,6 +673,13 @@ body.light-theme .github-icon {
     <h2>Education</h2>
     <div class="box-container">
       <div class="info-box education-box">
+        <h3>University of North Carolina at Charlotte</h3>
+        <p class="sub-heading"><b>Masters of Science (Computer Science)</b><br> Charlotte | 2025-2027</p>
+        <ul>
+          Coursework:<br>Artificial Intelligence, Natural Language Processing, Computer System and Architecture, Virtual and Augmented Reality
+        </ul>
+      </div>
+      <div class="info-box education-box">
         <h3>Pune University (SPPU)</h3>
         <p class="sub-heading"><b>Bachelor of Engineering (Computer Science)</b><br> Pune | 2015-2019 | CGPA: 8.54</p>
         <ul>
@@ -722,6 +748,16 @@ body.light-theme .github-icon {
         </ul>
       </div>
       <div class="skills-box">
+        <h3>Tools</h3>
+        <ul>
+          <li>OpenShift</li>
+          <li>AutoSys</li>
+          <li>Tectia</li>
+          <li>mRemote</li>
+          <li>JFrog</li>
+        </ul>
+      </div>
+      <div class="skills-box">
         <h3>Databases</h3>
         <ul>
           <li>MariaDB</li>
@@ -734,16 +770,6 @@ body.light-theme .github-icon {
         <ul>
           <li>Tomcat</li>
           <li>JBOSS</li>
-        </ul>
-      </div>
-      <div class="skills-box">
-        <h3>Tools</h3>
-        <ul>
-          <li>OpenShift</li>
-          <li>AutoSys</li>
-          <li>Tectia</li>
-          <li>mRemote</li>
-          <li>JFrog</li>
         </ul>
       </div>
     </div>
@@ -785,6 +811,36 @@ body.light-theme .github-icon {
       initVanta();
     });
   </script>
+  <script>
+    const counters = document.querySelectorAll('.count-up');
+  
+    const animateCounter = (counter) => {
+      const target = +counter.getAttribute('data-target');
+      let count = 0;
+      const increment = target / 200; // Adjust speed: 200 steps
+      const updateCount = () => {
+        count += increment;
+        if (count < target) {
+          counter.innerText = Math.floor(count);
+          requestAnimationFrame(updateCount);
+        } else {
+          counter.innerText = target.toLocaleString(); // optional formatting
+        }
+      };
+      updateCount();
+    };
+  
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          animateCounter(entry.target);
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.6 }); // triggers when 60% of element visible
+  
+    counters.forEach(counter => observer.observe(counter));
+  </script>
 
 <!-- Include Three.js and Vanta.js NET effect -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
@@ -824,6 +880,17 @@ body.light-theme .github-icon {
   });
 
 </script>
+
+<!-- <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Loop through bullet points in each info box and add AOS attributes
+    const bulletPoints = document.querySelectorAll('.info-box ul li');
+    bulletPoints.forEach((li, index) => {
+      li.setAttribute('data-aos', 'fade-up');
+      li.setAttribute('data-aos-delay', index * 1); // 100ms delay per item
+    });
+  });
+</script> -->
 
 </body>
 </html>
